@@ -45,12 +45,7 @@ contract WalletWhitelistTest is Test {
 
     function testOnlyOwnerCanAdd() public {
         vm.prank(nonOwner);
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                nonOwner
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, nonOwner));
         whitelist.addWalletToWhitelist(address(0xAAA));
     }
 
@@ -72,12 +67,7 @@ contract WalletWhitelistTest is Test {
 
     function testOnlyOwnerCanRemove() public {
         vm.prank(nonOwner);
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                nonOwner
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, nonOwner));
         whitelist.removeWalletFromWhitelist(wallet1);
     }
 

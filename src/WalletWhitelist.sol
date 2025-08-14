@@ -4,17 +4,16 @@ pragma solidity ^0.8.20;
 import {Ownable} from "@openzeppelin-contracts/contracts/access/Ownable.sol";
 
 contract WalletWhitelist is Ownable {
-
-    mapping (address => bool) public isWhitelisted;
+    mapping(address => bool) public isWhitelisted;
 
     event WalletAddedToWhitelist(address wallet);
     event WalletRemovedFromWhitelist(address wallet);
 
-    constructor(address[5] memory initialList) Ownable(msg.sender) { 
-        for (uint i = 0; i < initialList.length; i++) { 
-            require(initialList[i] != address(0), "INVALID WALLET ADDRESS PROVIDED"); 
-            isWhitelisted[initialList[i]] = true; 
-        } 
+    constructor(address[5] memory initialList) Ownable(msg.sender) {
+        for (uint256 i = 0; i < initialList.length; i++) {
+            require(initialList[i] != address(0), "INVALID WALLET ADDRESS PROVIDED");
+            isWhitelisted[initialList[i]] = true;
+        }
     }
 
     function addWalletToWhitelist(address wallet) external onlyOwner {

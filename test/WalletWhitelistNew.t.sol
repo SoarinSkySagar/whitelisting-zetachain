@@ -57,12 +57,7 @@ contract WalletWhitelistTest is Test {
 
     function testOnlyOwnerCanAdd() public {
         vm.prank(attacker);
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                attacker
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, attacker));
         whitelist.addWalletToWhitelist(allowedSet[2]);
     }
 
@@ -71,12 +66,7 @@ contract WalletWhitelistTest is Test {
         whitelist.addWalletToWhitelist(allowedSet[3]);
         vm.stopPrank();
         vm.prank(attacker);
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                Ownable.OwnableUnauthorizedAccount.selector,
-                attacker
-            )
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, attacker));
         whitelist.removeWalletFromWhitelist(allowedSet[3]);
     }
 
@@ -117,7 +107,7 @@ contract WalletWhitelistTest is Test {
 
     function testWhitelistLimit() public {
         vm.startPrank(owner);
-        for (uint i = 0; i < 5; i++) {
+        for (uint256 i = 0; i < 5; i++) {
             whitelist.addWalletToWhitelist(allowedSet[i]);
         }
         vm.expectRevert(bytes("WHITELIST LIMIT REACHED"));
