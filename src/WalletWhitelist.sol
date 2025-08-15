@@ -4,22 +4,27 @@ pragma solidity ^0.8.20;
 import {Ownable} from "@openzeppelin-contracts/contracts/access/Ownable.sol";
 
 contract WalletWhitelist is Ownable {
+    uint256 public whitelistCount;
+    mapping(address => bool) public allowedList;
     mapping(address => bool) public isWhitelisted;
 
     event WalletAddedToWhitelist(address wallet);
     event WalletRemovedFromWhitelist(address wallet);
 
-    constructor(address[5] memory initialList) Ownable(msg.sender) {
-        for (uint256 i = 0; i < initialList.length; i++) {
-            require(initialList[i] != address(0), "INVALID WALLET ADDRESS PROVIDED");
-            isWhitelisted[initialList[i]] = true;
+    constructor(address[15] memory allowedSet) Ownable(msg.sender) {
+        for (uint256 i = 0; i < allowedSet.length; i++) {
+            require(allowedSet[i] != address(0), "INVALID WALLET ADDRESS PROVIDED");
+            allowedList[allowedSet[i]] = true;
         }
     }
 
     function addWalletToWhitelist(address wallet) external onlyOwner {
         require(wallet != address(0), "INVALID WALLET ADDRESS PROVIDED");
+        require(allowedList[wallet], "WALLET NOT IN ALLOWED LIST");
         require(!isWhitelisted[wallet], "WALLET ALREADY IN WHITELIST");
+        require(whitelistCount < 5, "WHITELIST LIMIT REACHED");
         isWhitelisted[wallet] = true;
+        whitelistCount++;
         emit WalletAddedToWhitelist(wallet);
     }
 
@@ -27,6 +32,7 @@ contract WalletWhitelist is Ownable {
         require(wallet != address(0), "INVALID WALLET ADDRESS PROVIDED");
         require(isWhitelisted[wallet], "WALLET ALREADY NOT IN WHITELIST");
         isWhitelisted[wallet] = false;
+        whitelistCount--;
         emit WalletRemovedFromWhitelist(wallet);
     }
 

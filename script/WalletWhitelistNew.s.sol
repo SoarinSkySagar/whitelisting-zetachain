@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {WalletWhitelist} from "../src/WalletWhitelistNew.sol";
+import {WalletWhitelist} from "../src/WalletWhitelist.sol";
 
 contract WalletWhitelistScript is Script {
     WalletWhitelist public walletWhitelist;
